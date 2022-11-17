@@ -53,6 +53,21 @@ const randomBtn =  document.querySelector('.random-btn')
 let currentItem = 0
 console.log(currentItem)
 
+// load intial item
+window.addEventListener('DOMContentLoaded', () => {
+  // console.log('shake and bake')
+  dataChange()
+})
+
+// person data change function
+function dataChange(currentItem){
+  let item = reviews[currentItem]
+  img.src = item.img
+  author.textContent = item.name
+  job.textContent = item.job
+  info.textContent = item.text  
+}
+
 // prev button to decrement currentItem
 prevBtn.addEventListener('click', () => {
   currentItem-=1
@@ -73,7 +88,13 @@ nextBtn.addEventListener('click', () => {
   dataChange(currentItem)
 })
 
-// so that randomNumber returned!= currentItem and theres always a new random number 
+// to get a random number
+function getRandomNumber(){
+  return Math.floor(Math.random()*reviews.length)
+}
+
+// so that randomNumber returned!= currentItem and theres always a new random number so it updates to a new person everytime u click 
+// better than the tutorial where sometimes the number repeats itself and u have to click twice
 function checkCurrent(){
   let oldCurrent = currentItem
   currentItem = getRandomNumber()
@@ -88,22 +109,3 @@ randomBtn.addEventListener('click', () => {
   dataChange(currentItem)
 })
 
-// person data change function
-function dataChange(currentItem){
-  let item = reviews[currentItem]
-  img.src = item.img
-  author.textContent = item.name
-  job.textContent = item.job
-  info.textContent = item.text  
-}
-
-
-// load intial item
-window.addEventListener('DOMContentLoaded', () => {
-  // console.log('shake and bake')
-  
-})
-
-function getRandomNumber(){
-  return Math.floor(Math.random()*reviews.length)
-}
