@@ -37,3 +37,73 @@ const reviews = [
       "Edison bulb put a bird on it humblebrag, marfa pok pok heirloom fashion axe cray stumptown venmo actually seitan. VHS farm-to-table schlitz, edison bulb pop-up 3 wolf moon tote bag street art shabby chic. ",
   },
 ];
+
+const img = document.querySelector('#person-img') 
+const author =  document.querySelector('#author')
+const job =  document.querySelector('#job')
+const info = document.querySelector('#info')
+
+const prevBtn =  document.querySelector('.prev-btn')
+const nextBtn =  document.querySelector('.next-btn')
+const randomBtn =  document.querySelector('.random-btn')
+
+
+
+// set starting item
+let currentItem = 0
+console.log(currentItem)
+
+// prev button to decrement currentItem
+prevBtn.addEventListener('click', () => {
+  currentItem-=1
+  if(currentItem<0){
+    currentItem = reviews.length-1
+  }
+  console.log(currentItem);
+  dataChange(currentItem)
+})
+
+// next button to increment currentItem
+nextBtn.addEventListener('click', () => {
+  currentItem+=1
+  if(currentItem>reviews.length-1){
+    currentItem = 0
+  }
+  console.log(currentItem);  
+  dataChange(currentItem)
+})
+
+// so that randomNumber returned!= currentItem and theres always a new random number 
+function checkCurrent(){
+  let oldCurrent = currentItem
+  currentItem = getRandomNumber()
+  while(oldCurrent===currentItem){
+    currentItem=getRandomNumber()  
+  }}
+
+// surprise button 
+randomBtn.addEventListener('click', () => {
+  checkCurrent()
+  console.log('after clicking random button', currentItem);
+  dataChange(currentItem)
+})
+
+// person data change function
+function dataChange(currentItem){
+  let item = reviews[currentItem]
+  img.src = item.img
+  author.textContent = item.name
+  job.textContent = item.job
+  info.textContent = item.text  
+}
+
+
+// load intial item
+window.addEventListener('DOMContentLoaded', () => {
+  // console.log('shake and bake')
+  
+})
+
+function getRandomNumber(){
+  return Math.floor(Math.random()*reviews.length)
+}
