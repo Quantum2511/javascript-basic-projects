@@ -7,5 +7,5 @@ sidebarToggle.addEventListener('click', () => {
 })
 
 closeBtn.addEventListener('click', () => {
-    sidebar.classList.remove('show-sidebar')~
+    sidebar.classList.remove('show-sidebar')
 })
