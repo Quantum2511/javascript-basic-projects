@@ -72,7 +72,7 @@ const menu = [
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
   {
-    id: 9,
+    id: 10,
     title: "steak dinner",
     category: "dinner",
     price: 69.69,
@@ -81,18 +81,64 @@ const menu = [
   }
 ];
 
-const sectionCenter = document.querySelector('.section-center')
+const sectionCenter =  document.querySelector('.section-center')
 const btnContainer = document.querySelector('.btn-container')
 
-// load items
+
+
 window.addEventListener('DOMContentLoaded', () => {
   displayMenuItems(menu)
-  displayMenuBtns()
+  dynamicBtns()
 })
 
-function displayMenuItems(menuItems){
-  
+
+// dynamic button
+function dynamicBtns(){
+
+  // creates an array of category
+  const categories = menu.reduce(
+    (value, item) => {
+    if(!value.includes(item.category)){
+      value.push(item.category)
+    }
+    return value
+
+  },
+  ['all'])
+
+  makeBtn(categories)  // calls the function to create and display button
+  // make buttons using array of category
+  function makeBtn(item){
+    const btn = item.map( category => {
+      return `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`
+    }).join('')
+    btnContainer.innerHTML = btn     
+  }
+
+  const filterBtns = document.querySelectorAll('.filter-btn')
+
+  // filter items
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const category = e.currentTarget.dataset.id
+      const menuCategory = menu.filter(menuItem => {
+        if(menuItem.category===category){
+          return menuItem
+        }else if(category==='all'){
+          return menuItem
+        }
+      })
+    displayMenuItems(menuCategory)
+    })
+  })
+
+}
+
+// display menu
+function displayMenuItems(menuItems) {
+
   let displayMenu = menuItems.map(item => {
+    
     return `<article class="menu-item">
             <img src="${item.img}" class="photo" alt="${item.title}">
             <div class="item-info">
@@ -105,54 +151,12 @@ function displayMenuItems(menuItems){
               </p>
             </div>
             </article>`
-  })   
+  })
 
   displayMenu = displayMenu.join('')
+
   sectionCenter.innerHTML = displayMenu
 }
 
-// dynamically make buttons and filter content
-function displayMenuBtns(){
 
-  // creates an array of category
-  const categories = menu.reduce(
-    function(values, item){
-      if(!values.includes(item.category)){
-        values.push(item.category)
-      }
-      return values
-  },
-  ['all'])
-  
-  makeBtn(categories)
-
-  //dynamic filter buttons based on category
-  function makeBtn(cat){
-    const btn = cat.map(category => {
-      return `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`
-    }).join('')
-    btnContainer.innerHTML=btn
-  }
-  
-  const filterBtns = document.querySelectorAll('.filter-btn')
-
-  // filter items 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      // const category = (e.currentTarget.textContent) you can use even this method if the btn content === category to filter out like this case
-      const category = (e.currentTarget.dataset.id)
-      const menuCategory = menu.filter(menuItem => {
-        if(menuItem.category===category){
-          console.log(menuItem.category);
-          return menuItem
-        }else if(category==='all'){
-          console.log(menuItem)
-          return menuItem
-        }
-      })
-      displayMenuItems(menuCategory)
-    })
-  })
-
-}
 
